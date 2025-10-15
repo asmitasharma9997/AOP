@@ -1,10 +1,7 @@
 package com.example.aopDemo.aspect
 
 import org.aspectj.lang.JoinPoint
-import org.aspectj.lang.annotation.AfterReturning
-import org.aspectj.lang.annotation.AfterThrowing
-import org.aspectj.lang.annotation.Aspect
-import org.aspectj.lang.annotation.Before
+import org.aspectj.lang.annotation.*
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import java.util.*
@@ -45,5 +42,12 @@ class LoggingAspect {
         System.out.println("After Throwing on method " + joinPoint.signature)
         System.out.println("Exception: " + exc.message)
         System.out.println("=====> Done After Throwing Advice <====== ")
+    }
+
+    @After("com.example.aopDemo.aspect.PointCutExpressions.forDaoPackage()")
+    open fun afterAdvice(joinPoint: JoinPoint) {
+        System.out.println("=====> ****** Executing After Advice ******* <====== ")
+        System.out.println("After (finally) on method " + joinPoint.signature)
+        System.out.println("=====> ****** Done After Advice ******* <====== ")
     }
 }

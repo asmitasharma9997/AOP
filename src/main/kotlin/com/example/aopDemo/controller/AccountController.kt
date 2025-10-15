@@ -12,7 +12,7 @@ class AccountController(
     @GetMapping("/greet")
     fun greet() {
         val accountid = accountDAO.getAccountId()
-        accountDAO.setAccountId(accountid)
+        accountDAO.setAccountId("1")
         accountDAO.addAccount()
     }
 
