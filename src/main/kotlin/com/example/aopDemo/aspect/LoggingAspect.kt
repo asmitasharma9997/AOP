@@ -2,6 +2,7 @@ package com.example.aopDemo.aspect
 
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.AfterReturning
+import org.aspectj.lang.annotation.AfterThrowing
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
 import org.springframework.core.annotation.Order
@@ -33,5 +34,16 @@ class LoggingAspect {
         System.out.println("After returning on method " + joinPoint.signature)
         val modified  = result.uppercase(Locale.getDefault())
         System.out.println("Result: " + modified)
+    }
+
+    @AfterThrowing(
+        pointcut = "com.example.aopDemo.aspect.PointCutExpressions.setter()",
+        throwing = "exc"
+    )
+    open fun afterThrowingAspect(joinPoint: JoinPoint, exc: Throwable) {
+        System.out.println("=====> Executing After Throwing Advice <====== ")
+        System.out.println("After Throwing on method " + joinPoint.signature)
+        System.out.println("Exception: " + exc.message)
+        System.out.println("=====> Done After Throwing Advice <====== ")
     }
 }
