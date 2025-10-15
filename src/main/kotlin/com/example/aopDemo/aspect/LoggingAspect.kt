@@ -1,5 +1,6 @@
 package com.example.aopDemo.aspect
 
+import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
 import org.springframework.core.annotation.Order
@@ -11,8 +12,14 @@ import org.springframework.stereotype.Component
 class LoggingAspect {
     //    @Before("execution(public void addAccount())")
     @Before("com.example.aopDemo.aspect.PointCutExpressions.forDaoPackage()")
-    open fun beforeAspect() {
+    open fun beforeAspect(joinPoint: JoinPoint) {
         System.out.println("=====> Executing Before Advice <====== ")
+        val methodSignature = joinPoint.signature
+        val args = joinPoint.args
+        System.out.println("Method signature : " + methodSignature)
+        for (arg in args) {
+            System.out.println("Argument: " + arg)
+        }
     }
 
 //    @Before("com.example.aopDemo.aspect.PointCutExpressions.forDaoPackageExcludingGetterAndSetter()")
