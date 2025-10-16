@@ -1,6 +1,7 @@
 package com.example.aopDemo.aspect
 
 import org.aspectj.lang.JoinPoint
+import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.*
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
@@ -29,7 +30,7 @@ class LoggingAspect {
     open fun afterReturningAspect(joinPoint: JoinPoint, result: String) {
         System.out.println("=====> Executing After returning Advice <====== ")
         System.out.println("After returning on method " + joinPoint.signature)
-        val modified  = result.uppercase(Locale.getDefault())
+        val modified = result.uppercase(Locale.getDefault())
         System.out.println("Result: " + modified)
     }
 
@@ -49,5 +50,17 @@ class LoggingAspect {
         System.out.println("=====> ****** Executing After Advice ******* <====== ")
         System.out.println("After (finally) on method " + joinPoint.signature)
         System.out.println("=====> ****** Done After Advice ******* <====== ")
+    }
+
+    @Around("com.example.aopDemo.aspect.PointCutExpressions.forDaoPackageExcludingGetterAndSetter()")
+    open fun getDuration(proceedingJoinPoint: ProceedingJoinPoint): Any {
+        System.out.println("=====> Executing Around Advice <====== ")
+        val begin = System.currentTimeMillis()
+        val result = proceedingJoinPoint.proceed()
+        val end = System.currentTimeMillis()
+        val duration = end - begin
+        System.out.println("Duration for method  " + proceedingJoinPoint.signature + " is " + duration + " millis")
+        System.out.println("=====> Completed Around Advice <====== ")
+        return result
     }
 }

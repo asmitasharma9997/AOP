@@ -6,8 +6,9 @@ import java.lang.RuntimeException
 @Component
 class AccountDAOImpl() {
     private var accountId: String = "a1"
-    fun addAccount() {
+    fun addAccount(): String {
         System.out.println(javaClass.canonicalName + "  DOING DB WORK : ADDING ACCOUNT")
+        return accountId
     }
 
     fun getAccountId(): String {
